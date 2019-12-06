@@ -14,7 +14,7 @@ export function generateSignature(data) {
         const hash = hmacSha256.default(msg, data.apiSecret);
         signature = base64JS.Base64.encodeURI(`${data.apiKey}.${data.meetingNumber}.${ts}.${data.role}.${encBase64.stringify(hash)}`);
     } catch (e) {
-         console.log('generateSignature error: ', e);
+         console.log('error');
     }
     return signature;
 }

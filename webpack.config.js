@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
+    mode: process.env.NODE_ENV || 'development',
     entry: './app/view/index.js',
     output: {
         filename: 'main.js',
