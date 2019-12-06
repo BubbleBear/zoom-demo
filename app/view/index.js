@@ -4,32 +4,43 @@ import { generateSignature } from './zoom-sig';
 const secrets = require('../../secrets.json').zoom;
 
 (async function () {
-    const initialization = ZoomMtg.init({
-        debug: true, //optional
-        leaveUrl: 'http://www.zoom.us', //required
-        webEndpoint: 'PSO web domain', // PSO option
-        rwcEndpoint: 'PSO rwc domain', // PSO option
-        rwcBackup: 'PSO multi rwc domain', // PSO option
-        showMeetingHeader: false, //option
-        disableInvite: false, //optional
-        disableCallOut: false, //optional
-        disableRecord: false, //optional
-        disableJoinAudio: false, //optional
-        audioPanelAlwaysOpen: true, //optional
-        showPureSharingContent: false, //optional
-        isSupportAV: true, //optional,
-        isSupportChat: true, //optional,
-        isSupportQA: true, //optional,
-        isSupportCC: true, //optional,
-        screenShare: true, //optional,
-        rwcBackup: '', //optional,
-        videoDrag: true, //optional,
-        sharingMode: 'both', //optional,
-        videoHeader: true, //optional,
-        isLockBottom: true, // optional,
-        isSupportNonverbal: true, // optional,
-        isShowJoiningErrorDialog: true // optional
+    const initialization = new Promise((resolve, reject) => {
+        ZoomMtg.init({
+            debug: true, //optional
+            leaveUrl: 'http://www.zoom.us', //required
+            webEndpoint: 'PSO web domain', // PSO option
+            rwcEndpoint: 'PSO rwc domain', // PSO option
+            rwcBackup: 'PSO multi rwc domain', // PSO option
+            showMeetingHeader: false, //option
+            disableInvite: false, //optional
+            disableCallOut: false, //optional
+            disableRecord: false, //optional
+            disableJoinAudio: false, //optional
+            audioPanelAlwaysOpen: true, //optional
+            showPureSharingContent: false, //optional
+            isSupportAV: true, //optional,
+            isSupportChat: true, //optional,
+            isSupportQA: true, //optional,
+            isSupportCC: true, //optional,
+            screenShare: true, //optional,
+            rwcBackup: '', //optional,
+            videoDrag: true, //optional,
+            sharingMode: 'both', //optional,
+            videoHeader: true, //optional,
+            isLockBottom: true, // optional,
+            isSupportNonverbal: true, // optional,
+            isShowJoiningErrorDialog: true, // optional
+            success: (result) => {
+                resolve(result);
+            },
+            error: (error) => {
+                reject(error);
+            },
+        });
     });
+
+    const x = await initialization;
+    console.log('init end', x);
 
     const meetingNumber = 123456789;
 
