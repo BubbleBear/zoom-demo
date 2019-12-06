@@ -1,6 +1,6 @@
 const http = require('http');
 const fs = require('fs');
-const { resolve: resolvePath } = require('path');
+const { join: joinPath } = require('path');
 const { parse: parseUrl } = require('url');
 
 const PORT = 3005;
@@ -15,7 +15,7 @@ server
     .on('request', (req, res) => {
         const path = parseUrl(route[req.url] || req.url).pathname;
 
-        fs.createReadStream(resolvePath(__dirname, '../', 'public', path))
+        fs.createReadStream(joinPath(__dirname, '../', 'public', path))
             .on('error', (e) => {
                 console.log(e);
                 res.statusCode = 400;
