@@ -13,7 +13,7 @@ const secrets = require('../../secrets.json').zoom;
     await new Promise((resolve, reject) => {
         ZoomMtg.init({
             debug: true, //optional
-            leaveUrl: 'http://www.zoom.us', //required
+            leaveUrl: 'http://localhost:3005', //required
             // webEndpoint: 'PSO web domain', // PSO option
             // rwcEndpoint: 'PSO rwc domain', // PSO option
             // rwcBackup: 'PSO multi rwc domain', // PSO option
@@ -31,7 +31,7 @@ const secrets = require('../../secrets.json').zoom;
             screenShare: true, //optional,
             rwcBackup: '', //optional,
             videoDrag: true, //optional,
-            sharingMode: 'both', //optional,
+            sharingMode: 'fit', //optional,
             videoHeader: true, //optional,
             isLockBottom: true, // optional,
             isSupportNonverbal: true, // optional,
