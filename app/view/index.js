@@ -4,13 +4,19 @@ import { generateSignature } from './zoom-sig';
 const secrets = require('../../secrets.json').zoom;
 
 (async function () {
-    const initialization = new Promise((resolve, reject) => {
+    ZoomMtg.setZoomJSLib('@zoomus/websdk/dist/lib', '/av');
+
+    ZoomMtg.preLoadWasm();
+
+    ZoomMtg.prepareJssdk();
+
+    await new Promise((resolve, reject) => {
         ZoomMtg.init({
             debug: true, //optional
             leaveUrl: 'http://www.zoom.us', //required
-            webEndpoint: 'PSO web domain', // PSO option
-            rwcEndpoint: 'PSO rwc domain', // PSO option
-            rwcBackup: 'PSO multi rwc domain', // PSO option
+            // webEndpoint: 'PSO web domain', // PSO option
+            // rwcEndpoint: 'PSO rwc domain', // PSO option
+            // rwcBackup: 'PSO multi rwc domain', // PSO option
             showMeetingHeader: false, //option
             disableInvite: false, //optional
             disableCallOut: false, //optional
@@ -39,10 +45,7 @@ const secrets = require('../../secrets.json').zoom;
         });
     });
 
-    const x = await initialization;
-    console.log('init end', x);
-
-    const meetingNumber = 123456789;
+    const meetingNumber = 2116254264;
 
     ZoomMtg.join({
         meetingNumber,
