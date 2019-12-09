@@ -5,7 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
     mode: process.env.NODE_ENV || 'development',
-    entry: './app/view/index.js',
+    entry: './app/view/zoom/index.js',
     output: {
         filename: 'main.js',
         path: resolvePath('public/js'),

@@ -1,7 +1,7 @@
 import { ZoomMtg } from '@zoomus/websdk';
-import { generateSignature } from './zoom-sig';
+import { generateSignature } from './signature';
 
-const secrets = require('../../secrets.json').zoom;
+const secrets = require('../../../secrets.json').zoom;
 
 (async function () {
     ZoomMtg.setZoomJSLib('@zoomus/websdk/dist/lib', '/av');
