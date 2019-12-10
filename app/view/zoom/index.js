@@ -45,19 +45,19 @@ const secrets = require('../../../secrets.json').zoom;
         });
     });
 
-    const meetingNumber = 2116254264;
+    const meetingNumber = 981833865;
 
     ZoomMtg.join({
         meetingNumber,
-        userName: 'User name',
-        userEmail: 'vawang@ebay.com',
-        passWord: '123',
+        // userName: 'User name',
+        userEmail: 'vesselvatel@163.com',
+        passWord: 'Abc123123',
         apiKey: 'fi16onS1RXOdsGeIuDz7Aw',
         signature: generateSignature({
             apiKey: secrets.apiKey,
             apiSecret: secrets.apiSecret,
             meetingNumber,
-            role: 0,
+            role: 1,
         }),
         participantId: 'UUID',
         success: function(res){console.log(res)},
