@@ -29,7 +29,7 @@ if (require.main === module) {
 
     const app = {
         config: {
-            secrets: require('../../secrets.json').zoom,
+            secrets: require('../../secrets.json'),
         }
     };
 
