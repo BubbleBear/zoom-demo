@@ -21,10 +21,6 @@ class AuthenticationService extends BaseService {
     // todo
     async oauth() {
         const secrets = this.config.secrets.oauth;
-
-        const x = await request.get(`https://zoom.us/oauth/authorize?response_type=code&client_id=${secrets.clientID}&redirect_uri=https://81c078e9.ngrok.io`);
-
-        return x;
     }
 }
 
@@ -40,12 +36,8 @@ if (require.main === module) {
     
         const auth = new AuthenticationService(app);
     
-        // const jwt = await auth.getJWT();
+        const jwt = await auth.getJWT();
     
-        // console.log(jwt);
-
-        const oauth1 = await auth.oauth();
-
-        console.log(oauth1.body);
+        console.log(jwt);
     })();
 }

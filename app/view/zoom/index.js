@@ -1,7 +1,6 @@
 import { ZoomMtg } from '@zoomus/websdk';
-import { generateSignature } from './signature';
 
-const secrets = require('../../../secrets.json').zoom;
+const secrets = require('../../../secrets.json').jwt;
 
 (async function () {
     ZoomMtg.setZoomJSLib('@zoomus/websdk/dist/lib', '/av');
@@ -45,15 +44,15 @@ const secrets = require('../../../secrets.json').zoom;
         });
     });
 
-    const meetingNumber = 981833865;
+    const meetingNumber = 897470669;
 
     ZoomMtg.join({
         meetingNumber,
-        // userName: 'User name',
-        userEmail: 'vesselvatel@163.com',
-        passWord: 'Abc123123',
+        userName: 'User name',
+        // userEmail: 'vesselvatel@163.com',
+        passWord: 'TDY3eTJJTUtPbUZWcklIcmlSemw1dz09',
         apiKey: 'fi16onS1RXOdsGeIuDz7Aw',
-        signature: generateSignature({
+        signature: ZoomMtg.generateSignature({
             apiKey: secrets.apiKey,
             apiSecret: secrets.apiSecret,
             meetingNumber,
@@ -63,4 +62,6 @@ const secrets = require('../../../secrets.json').zoom;
         success: function(res){console.log(res)},
         error: function(res){console.log(res)}
      });
+
+    console.log(Object.keys(ZoomMtg));
 })();

@@ -40,7 +40,7 @@ if (require.main === module) {
     (async () => {
         const jwt = await auth.getJWT();
 
-        const list = await meeting.list(jwt, 'Af1u82ftSNO6GiMp9l6ihw');
+        const list = await meeting.list(jwt, '6WG0RF0eTNGPfUVLULpDRg');
 
         console.log(JSON.stringify(JSON.parse(list.body), 0, 4));
 
@@ -56,13 +56,5 @@ if (require.main === module) {
                 cn_meeting: true,
             }
         };
-
-        try {
-            const create = await meeting.create(jwt, 'Af1u82ftSNO6GiMp9l6ihw', createBody);
-
-            console.log(create.body);
-        } catch (e) {
-            console.log(e);
-        }
     })();
 }
