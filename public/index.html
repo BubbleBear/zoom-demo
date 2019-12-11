@@ -10,6 +10,28 @@
     <link rel="stylesheet" href="@zoomus/websdk/dist/css/react-select.css">
 </head>
 <body>
+    <nav id="nav-tool" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">MyMeetingApp</a>
+                </div>
+                <div id="navbar">
+                    <form class="navbar-form navbar-right" id="meeting_form">
+                        <div class="form-group">
+                            <input type="text" name="display_name" id="display_name" value="" placeholder="Display Name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="meeting_number" id="meeting_number" value="" placeholder="Meeting Number" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="join_meeting">Join</button>
+                    </form>
+                    <form class="navbar-form navbar-right">
+                        <select name="users" id="user-select" required></select>
+                        <button type="submit" class="btn btn-primary" id="hold_meeting">Hold</button>
+                    </form>>
+                </div>
+            </div>
+        </nav>
     <script src="js/main.js"></script>
 </body>
 </html>

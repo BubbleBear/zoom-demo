@@ -3,6 +3,12 @@ const fs = require('fs');
 const { join: joinPath } = require('path');
 const { parse: parseUrl } = require('url');
 
+const LoaderService = require('./service/loader');
+
+const config = {
+    secrets: require('../secrets.json'),
+};
+
 const PORT = 3005;
 
 const server = http.createServer();
@@ -11,9 +17,28 @@ const route = {
     '/': '/index.html',
 };
 
+const app = {
+    config,
+    server,
+};
+
+const loader = new LoaderService(app);
+
 server
     .on('request', (req, res) => {
         const path = parseUrl(route[req.url] || req.url).pathname;
+        req.app = res.app = app;
+
+        const querystring = parseUrl(req.url).query || '';
+        req.query = querystring
+            .split('&')
+            .filter(e => e)
+            .reduce((acc, cur) => {
+                const [key, value] = cur.split('=');
+                acc[key] = value;
+
+                return acc;
+            }, {});
 
         if (path.startsWith('/api')) {
             try {
@@ -46,6 +71,8 @@ server
             .pipe(res);
     });
 
-server.listen(PORT, () => {
-    console.log(`listening on ${PORT}`);
+loader.loadServices().then(() => {
+    server.listen(PORT, () => {
+        console.log(`listening on ${PORT}`);
+    });
 });

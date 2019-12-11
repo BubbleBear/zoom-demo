@@ -44,24 +44,71 @@ const secrets = require('../../../secrets.json').jwt;
         });
     });
 
-    const meetingNumber = 897470669;
+    console.log(Object.keys(ZoomMtg));
+
+    window.addEventListener('beforeunload', () => {
+        fetch('/api/foo/beforeUnload');
+    });
+
+    const userSelector = document.querySelector('#user-select');
+    const hold = document.querySelector('#hold_meeting');
+    const join = document.querySelector('#join_meeting');
+    const meetingNumber = document.querySelector('#meeting_number');
+    const displayName = document.querySelector('#display_name');
+    const userId = document.querySelector('#user-select');
+
+    const users = (await listUsers()).users;
+
+    users.forEach((user) => {
+        const option = document.createElement('option');
+        option.textContent = `${user.first_name} ${user.last_name}`;
+        option.value = user.id;
+
+        userSelector.appendChild(option);
+    });
+
+    hold.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        await joinMeeting(null, null, 1, username);
+    });
+
+    join.addEventListener('click', async (e) => {
+        e.preventDefault();
+
+        await joinMeeting(meetingNumber, password, 0, username);
+    });
+})();
+
+async function listUsers() {
+    const res = await fetch('/api/user/list');
+    const b = await res.json();
+
+    return b;
+}
+
+async function createMeeting(userId) {
+    ;
+}
+
+async function joinMeeting(meetingNumber, password, role, username) {
+    meetingNumber = 897470669;
+    password = 'TDY3eTJJTUtPbUZWcklIcmlSemw1dz09';
 
     ZoomMtg.join({
         meetingNumber,
-        userName: 'User name',
-        // userEmail: 'vesselvatel@163.com',
-        passWord: 'TDY3eTJJTUtPbUZWcklIcmlSemw1dz09',
-        apiKey: 'fi16onS1RXOdsGeIuDz7Aw',
+        userName: username || 'User name',
+        // userEmail: '',
+        passWord: password,
+        apiKey: secrets.apiKey,
         signature: ZoomMtg.generateSignature({
             apiKey: secrets.apiKey,
             apiSecret: secrets.apiSecret,
             meetingNumber,
-            role: 1,
+            role,
         }),
         participantId: 'UUID',
         success: function(res){console.log(res)},
         error: function(res){console.log(res)}
      });
-
-    console.log(Object.keys(ZoomMtg));
-})();
+}

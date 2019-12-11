@@ -3,7 +3,9 @@ const request = require('../util/request');
 const BaseService = require('./base');
 
 class UserService extends BaseService {
-    async list(token) {
+    async list() {
+        const token = await this.app.services.authentication.getJWT();
+
         return request.get('https://api.zoom.us/v2/users', {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -11,7 +13,9 @@ class UserService extends BaseService {
         });
     }
 
-    async create(token, body) {
+    async create(body) {
+        const token = await this.app.services.authentication.getJWT();
+
         return request.post('https://api.zoom.us/v2/users', {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -25,7 +29,7 @@ class UserService extends BaseService {
 module.exports = UserService;
 
 if (require.main === module) {
-    const AuthenticationService = require('./authentication');
+    const LoaderService = require('./loader');
 
     const app = {
         config: {
@@ -33,14 +37,14 @@ if (require.main === module) {
         }
     };
 
-    const auth = new AuthenticationService(app);
+    const loader = new LoaderService(app);
 
     const user = new UserService(app);
 
     (async () => {
-        const jwt = await auth.getJWT();
+        await loader.loadServices();
 
-        const list = await user.list(jwt);
+        const list = await user.list();
 
         console.log(JSON.stringify(JSON.parse(list.body), 0, 4));
 
@@ -58,7 +62,7 @@ if (require.main === module) {
         }
 
         try {
-            const create = await user.create(jwt, createBody);
+            const create = await user.create(createBody);
 
             console.log(create.body);
         } catch (e) {
