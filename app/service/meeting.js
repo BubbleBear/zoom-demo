@@ -60,5 +60,9 @@ if (require.main === module) {
                 cn_meeting: true,
             }
         };
+
+        const r = await meeting.create('6WG0RF0eTNGPfUVLULpDRg', createBody);
+
+        console.log(r.body);
     })();
 }

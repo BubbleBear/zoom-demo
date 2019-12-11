@@ -54,8 +54,10 @@ const secrets = require('../../../secrets.json').jwt;
     const hold = document.querySelector('#hold_meeting');
     const join = document.querySelector('#join_meeting');
     const meetingNumber = document.querySelector('#meeting_number');
-    const displayName = document.querySelector('#display_name');
+    const holdDisplayName = document.querySelector('.hold .display_name');
+    const joinDisplayName = document.querySelector('.join .display_name');
     const userId = document.querySelector('#user-select');
+    const password = document.querySelector('#password');
 
     const users = (await listUsers()).users;
 
@@ -70,13 +72,18 @@ const secrets = require('../../../secrets.json').jwt;
     hold.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        await joinMeeting(null, null, 1, username);
+        const meeting = await createMeeting(userId.value);
+
+        meetingNumber.value = meeting.id;
+        password.value = meeting.encrypted_password;
+
+        await joinMeeting(meeting.id, meeting.encrypted_password, 1, holdDisplayName.value);
     });
 
     join.addEventListener('click', async (e) => {
         e.preventDefault();
 
-        await joinMeeting(meetingNumber, password, 0, username);
+        await joinMeeting(meetingNumber.value, password.value, 0, joinDisplayName.value);
     });
 })();
 
@@ -88,13 +95,14 @@ async function listUsers() {
 }
 
 async function createMeeting(userId) {
-    ;
+    const res = await fetch(`/api/meeting/create?userId=${userId}`);
+    const b = await res.json();
+
+    return b;
 }
 
 async function joinMeeting(meetingNumber, password, role, username) {
-    meetingNumber = 897470669;
-    password = 'TDY3eTJJTUtPbUZWcklIcmlSemw1dz09';
-
+    console.log(meetingNumber, password, role, username);
     ZoomMtg.join({
         meetingNumber,
         userName: username || 'User name',
