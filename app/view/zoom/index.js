@@ -44,8 +44,6 @@ const secrets = require('../../../secrets.json').jwt;
         });
     });
 
-    console.log(Object.keys(ZoomMtg));
-
     window.addEventListener('beforeunload', () => {
         fetch('/api/foo/beforeUnload');
     });
@@ -98,25 +96,30 @@ async function createMeeting(userId) {
     const res = await fetch(`/api/meeting/create?userId=${userId}`);
     const b = await res.json();
 
-    return b;
+    return b.meeting;
 }
 
 async function joinMeeting(meetingNumber, password, role, username) {
-    console.log(meetingNumber, password, role, username);
-    ZoomMtg.join({
-        meetingNumber,
-        userName: username || 'User name',
-        // userEmail: '',
-        passWord: password,
-        apiKey: secrets.apiKey,
-        signature: ZoomMtg.generateSignature({
-            apiKey: secrets.apiKey,
-            apiSecret: secrets.apiSecret,
+    return new Promise((resolve, reject) => {
+        ZoomMtg.join({
             meetingNumber,
-            role,
-        }),
-        participantId: 'UUID',
-        success: function(res){console.log(res)},
-        error: function(res){console.log(res)}
-     });
+            userName: username || 'User name',
+            // userEmail: '',
+            passWord: password, 
+            apiKey: secrets.apiKey,
+            signature: ZoomMtg.generateSignature({
+                apiKey: secrets.apiKey,
+                apiSecret: secrets.apiSecret,
+                meetingNumber,
+                role,
+            }),
+            participantId: 'UUID',
+            success: function (res) {
+                resolve(res);
+            },
+            error: function (res) {
+                reject(res);
+            },
+        });
+    });
 }

@@ -22,7 +22,29 @@ class MeetingController {
 
         const r = await req.app.services.meeting.create(query.userId, createBody);
 
-        res.write(JSON.stringify(r.body));
+        if (query.meetingKey) {
+            await req.app.services.storage.set(query.meetingKey, r.body);
+        }
+
+        res.write(JSON.stringify({
+            meeting: r.body,
+        }));
+    }
+
+    async get(req, res) {
+        const query = req.query;
+
+        let meeting = await req.app.services.storage.get(query.meetingKey);
+
+        if (meeting) {
+            const r = await req.app.services.meeting.get(meeting.id);
+
+            meeting = JSON.parse(r.body);
+        }
+
+        res.write(JSON.stringify({
+            meeting,
+        }));
     }
 };
 

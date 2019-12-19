@@ -24,6 +24,16 @@ class MeetingService extends BaseService {
             json: true,
         });
     }
+
+    async get(meetingId) {
+        const token = await this.app.services.authentication.getJWT();
+
+        return request.get(`https://api.zoom.us/v2/meetings/${meetingId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+    }
 }
 
 module.exports = MeetingService;
@@ -61,8 +71,16 @@ if (require.main === module) {
             }
         };
 
-        const r = await meeting.create('6WG0RF0eTNGPfUVLULpDRg', createBody);
+        // const r = await meeting.create('6WG0RF0eTNGPfUVLULpDRg', createBody);
 
-        console.log(r.body);
+        // console.dir(r.body, {
+        //     depth: null,
+        // });
+
+        const m = await meeting.get(433546928);
+
+        console.dir(JSON.parse(m.body), {
+            depth: null,
+        });
     })();
 }

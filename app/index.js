@@ -26,6 +26,8 @@ const loader = new LoaderService(app);
 
 server
     .on('request', (req, res) => {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
         const path = parseUrl(route[req.url] || req.url).pathname;
         req.app = res.app = app;
 
@@ -43,6 +45,7 @@ server
         if (path.startsWith('/api')) {
             try {
                 const [_0, _1, controllerName, actionName] = path.split('/');
+                console.log(controllerName, actionName);
                 const controller = require(`./controller/${controllerName}`);
                 const action = controller[actionName](req, res);
 
