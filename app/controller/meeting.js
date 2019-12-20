@@ -46,6 +46,14 @@ class MeetingController {
             meeting,
         }));
     }
+
+    async delete(req, res) {
+        const query = req.query;
+
+        await req.app.services.storage.unset(query.meetingKey);
+
+        res.write(JSON.stringify({}));
+    }
 };
 
 module.exports = new MeetingController;
